@@ -1,3 +1,4 @@
+// 服务端渲染页面
 const express = require('express');
 const expressStatic =  require('express-static');
 const multer = require('multer');
