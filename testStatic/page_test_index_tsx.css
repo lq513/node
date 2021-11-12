@@ -1,0 +1,13 @@
+/*!*****************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./page/test/index.css ***!
+  \*****************************************************************************************************************/
+img {
+  width: 100%;
+}
+
+div.testcss {
+  -webkit-transform: scale(0.8);
+          transform: scale(0.8);
+  color: rgb(var(--grey-9-rgb));
+}
+

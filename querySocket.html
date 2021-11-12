@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const wb = new WebSocket('ws://localhost:9999');
+    wb.onopen = function() {
+      console.log('连接上了');
+    };
+    wb.onclose = function() {
+      console.log('断了');
+    }
+  </script>
+</body>
+</html>

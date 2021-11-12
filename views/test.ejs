@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>father</title>
+</head>
+<body>
+  <iframe src="http://localhost:8000/#/test4" style="width: 100%;height: 200px;" id="ifreame">
+  </iframe>
+  <div id='div1'>
+    我是父级
+  </div>
+  <script>
+    const child = document.getElementById('ifreame');
+    // console.log(child.contentWindow.parent);
+  </script>
+</body>
+</html>
