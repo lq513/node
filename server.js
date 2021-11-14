@@ -58,7 +58,7 @@ server.get('/contact', (req, res) => {
 
 server.post('/upload', (req, res) => {
   const ext = pathLib.parse(req.files[0].originalname).ext;
-  // console.log(`./static/pic/${req.files[0].filename+ext}`);
+  console.log(`./static/pic/${req.files[0].filename+ext}`);
   console.log(1111, req.files);
   fs.rename(req.files[0].path, req.files[0].path + ext, (err) => {
     if (err) {
