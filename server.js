@@ -40,8 +40,8 @@ server.get('/test', (req, res) => {
 server.get('/', (req, res) => {
   db.query('SELECT * FROM hotnews', (err, data) => {
     if (err) console.log(err);
-    // res.render('index.ejs', {news: data});
-    res.render('test.ejs');
+    res.render('index.ejs', {news: data});
+    // res.render('test.ejs');
   })
 });
 server.get('/technology', (req, res) => {
@@ -73,7 +73,7 @@ server.post('/upload', (req, res) => {
     }
   })
 });
-server.use(expressStatic('./testStatic'));
+server.use(expressStatic('./static'));
 console.log('服务已启动')
 
 server.listen(3002);
