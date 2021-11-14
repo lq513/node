@@ -7,12 +7,13 @@ const consolidate = require('consolidate');
 const pathLib = require('path');
 const mysql = require('mysql');
 const myDocIF = require('./interface/mydoc')
+const myDbIF = require('./interface/mydb');
 console.log('请启数据库');
 
 const db = mysql.createPool({ host: 'localhost', user: 'root', password: 'root', database: 'mydb'})
-var server = express();
-myDocIF(server);
+const db2 = mysql.createPool({ host: 'localhost', user: 'root', password: 'root', database: 'mydoc'});
 
+var server = express();
 server.set('view engine', 'html');
 server.set('views', __dirname+'/views');
 server.engine('html', consolidate.ejs);
@@ -31,15 +32,9 @@ server.use(function(req, res, next){
     res.send(200);
   } else { next() };//让options请求快速返回
 });
+myDocIF(db2, server);
+myDbIF(db, server);
 
-server.get('/test', (req, res) => {
-  // console.log(res);
-  res.send({
-    message: '成功',
-    data: 'ok'
-  });
-  // console.log(req.url);
-});
 server.get('/', (req, res) => {
   db.query('SELECT * FROM hotnews', (err, data) => {
     if (err) console.log(err);

@@ -1,14 +1,10 @@
-const mysql = require('mysql');
-
-module.exports = function (server) {
-  const db2 = mysql.createPool({ host: 'localhost', user: 'root', password: 'root', database: 'mydoc'});
-  
+module.exports = function (db, server) {
   // 获取js文档数据
   server.get('/getJsDoc', (req, res) => {
-    db2.query('SELECT * FROM jsdoc', (err, data) => {
+    db.query('SELECT * FROM jsdoc', (err, data) => {
       if (err) console.log(err);
       res.send({
-        message: '成功',
+        code: '200',
         data
       });
     })
