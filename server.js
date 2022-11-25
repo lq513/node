@@ -26,7 +26,7 @@ server.use(function(req, res, next){
   //跨域允许的请求方式
   res.header("Access-Control-Allow-Methods", "DELETE,PUT,POST,GET,OPTIONS");
   //接收ajax请求手动提交的cookie信息
-  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Credentials", false);
   res.header("X-Powered-By", ' 3.2.1');
   if (req.method == "OPTIONS") {
     res.send(200);

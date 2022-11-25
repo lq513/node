@@ -1,9 +1,15 @@
 module.exports = function (db, server) {
   // 获取js文档数据
-  server.get('/getJsDoc', (req, res) => {
+  server.get('/getJsDoc3', (req, res) => {
+    const params = req.query
+    console.log(params.key)
     db.query('SELECT * FROM jsdoc', (err, data) => {
-      let code = 200;
-      if (err) code = 500;
+      let code = 501;
+      if(Math.floor(Math.random() * 2)) code = 404;
+      if (err) {
+        console.log(err);
+        code = 500;
+      };
       res.json(code, {
         code: '200',
         data,
