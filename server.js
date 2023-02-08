@@ -1,6 +1,6 @@
 // 服务端渲染页面
 const express = require('express');
-const expressStatic =  require('express-static');
+// const expressStatic =  require('express-static');
 const multer = require('multer');
 const fs = require('fs');
 const consolidate = require('consolidate');
@@ -18,7 +18,8 @@ server.set('view engine', 'html');
 server.set('views', __dirname+'/views');
 server.engine('html', consolidate.ejs);
 server.use(multer({ dest: './static/pic'}).any());
-server.use(function(req, res, next){
+server.use(function (req, res, next) {
+  console.log(__dirname, req.url, req.originalUrl, '------');
   //设置允许跨域的域名，*代表允许任意域名跨域
   res.header("Access-Control-Allow-Origin", "*");
   //允许的header类型
@@ -71,7 +72,12 @@ server.post('/upload', (req, res) => {
     }
   })
 });
-server.use(expressStatic('./static'));
+// 使用 expressStatic 后，当匹配不上的时候不能执行下面的 *
+server.use(express.static('./testStatic'));
+// 配合前端 browser
+server.get('*', (request, response) => {
+  response.sendFile(pathLib.resolve(__dirname, 'testStatic', 'index.html'))
+});
 console.log('服务已启动')
 
 server.listen(3002);
