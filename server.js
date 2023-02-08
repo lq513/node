@@ -72,7 +72,7 @@ server.get('/stream', (req, res) => {
   res.write("data: " + 1 + "\n\n");
   res.write("data: " + 2 + "\n\n");
 
-  interval = setInterval(function () {
+  const interval = setInterval(function () {
     res.write("data: " + `{"foo": "bar","baz": ${++num}}\n\n`);
   }, 1000);
 
