@@ -57,6 +57,31 @@ server.get('/contact', (req, res) => {
   res.render('contact.ejs');
 });
 
+// Server-Sent Events
+server.get('/stream', (req, res) => {
+  let num = 0;
+  res.writeHead(200, {
+    "Content-Type":"text/event-stream;charset=UTF-8",
+    "Cache-Control":"no-cache",
+    "Connection":"keep-alive",
+  });
+  console.log('sse连接开始')
+  res.write("id: msg1\n")
+  res.write("retry: 10000\n"); // 指定浏览器重新发起连接的时间间隔
+  // res.write("event: foo\n") // 指定浏览器自定义的事件，指定一次执行一次
+  res.write("data: " + 1 + "\n\n");
+  res.write("data: " + 2 + "\n\n");
+
+  interval = setInterval(function () {
+    res.write("data: " + `{"foo": "bar","baz": ${++num}}\n\n`);
+  }, 1000);
+
+  req.connection.addListener("close", function () {
+    console.log('sse is closed');
+    clearInterval(interval);
+  }, false);
+});
+
 server.post('/upload', (req, res) => {
   const ext = pathLib.parse(req.files[0].originalname).ext;
   console.log(`./static/pic/${req.files[0].filename+ext}`);
