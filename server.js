@@ -2,6 +2,7 @@
 const express = require('express');
 // const expressStatic =  require('express-static');
 const multer = require('multer');
+const compression = require('compression');
 const fs = require('fs');
 const consolidate = require('consolidate');
 const pathLib = require('path');
@@ -18,6 +19,20 @@ server.set('view engine', 'html');
 server.set('views', __dirname+'/views');
 server.engine('html', consolidate.ejs);
 server.use(multer({ dest: './static/pic'}).any());
+// 处理 gzip 压缩
+server.use(compression({ filter: shouldCompress }));
+function shouldCompress (req, res) {
+  console.log(req.url, 'req')
+  // 2.1 如果请求 gzip 资源，跳过压缩，比如 /js/bundle.js.gz
+  if (req.path.indexOf('.gz') !== -1) { 
+    res.set('Content-Encoding', 'gzip') // 告诉浏览器服务器端返回 gzip 格式的资源
+    return false
+  }
+  /* 2.2 如果请求非 gzip 资源，比如 /js/bundle.js, 则 compression 会自动
+         帮我们压缩它并添加 Content-Encoding 为 gzip */
+  return compression.filter(req, res)
+}
+
 server.use(function (req, res, next) {
   console.log(__dirname, req.url, req.originalUrl, '------');
   //设置允许跨域的域名，*代表允许任意域名跨域
@@ -36,26 +51,26 @@ server.use(function (req, res, next) {
 myDocIF(db2, server);
 myDbIF(db, server);
 
-server.get('/', (req, res) => {
-  db.query('SELECT * FROM hotnews', (err, data) => {
-    if (err) console.log(err);
-    res.render('index.ejs', {news: data});
-    // res.render('test.ejs');
-  })
-});
-server.get('/technology', (req, res) => {
-  console.log(req.url)
-  res.render('technology.ejs');
-});
-server.get('/about', (req, res) => {
-  res.render('about.ejs');
-});
-server.get('/blog', (req, res) => {
-  res.render('blog.ejs');
-});
-server.get('/contact', (req, res) => {
-  res.render('contact.ejs');
-});
+// server.get('/', (req, res) => {
+//   db.query('SELECT * FROM hotnews', (err, data) => {
+//     if (err) console.log(err);
+//     res.render('index.ejs', {news: data});
+//     // res.render('test.ejs');
+//   })
+// });
+// server.get('/technology', (req, res) => {
+//   console.log(req.url)
+//   res.render('technology.ejs');
+// });
+// server.get('/about', (req, res) => {
+//   res.render('about.ejs');
+// });
+// server.get('/blog', (req, res) => {
+//   res.render('blog.ejs');
+// });
+// server.get('/contact', (req, res) => {
+//   res.render('contact.ejs');
+// });
 
 // Server-Sent Events
 server.get('/stream', (req, res) => {
